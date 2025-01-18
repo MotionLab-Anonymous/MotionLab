@@ -11,3 +11,35 @@
       <img src='https://img.shields.io/badge/Project-Page-blue?style=plastic&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
     </a>
 </p>
+
+
+## Folder Structure
+```
+├── checkpoints
+│   ├── clip-vit-large-patch14
+│   ├── glove
+│   ├── mdm-ldm
+│   │   ├── vae7.ckpt
+│   │   ├── motionclip.pth.tar
+│   ├── smpl
+│   │   ├── SMPL_NEUTRAL.pkl
+│   ├── smplh
+│   │   ├── SMPLH_NEUTRAL.npz
+│   ├── t2m
+│   │   ├── Comp_v6_KLD01
+├── datasets
+│   ├── all
+│   │   ├── new_joint_vecs
+│   │   ├── new_joints
+│   │   ├── texts
+│   │   ├── train_humanml.txt
+│   │   ├── train_motionfix.txt
+│   │   ├── val_humanml.txt
+│   │   ├── val_motionfix.txt
+│   │   ├── test_humanml.txt
+│   │   ├── test_motionfix.txt
+├── experiments
+│   ├── rfmotion
+│   │   ├── SPECIFIED NAME OF EXPERIMENTS
+│   │   │   ├── checkpoints
+```
