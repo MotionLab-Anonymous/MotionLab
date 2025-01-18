@@ -99,7 +99,7 @@ You should first check the configure in ./configs/config_rfmotion.yaml
 Importantly, the evaluate metrics are assigned by: 
 
       TEST:
-              CHECKPOINTS: ""  # Pretrained model path
+            CHECKPOINTS: ""  # Pretrained model path
               
       METRIC:
             TYPE: ["MaskedMetrics", "TM2TMetrics", "SourceTextMetrics", "SourceHintMetrics", "SourceTextHintMetrics", "InbetweenMetrics", "TextInbetweenMetrics","TextHintMetrics", "HintMetrics", "StyleMetrics", ]
