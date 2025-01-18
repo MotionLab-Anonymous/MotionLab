@@ -74,7 +74,7 @@ The results should be placed as shown in Folder Structure, including [vae7.ckpt 
 ## Demo the MotionLab
 You should first check the configure in ./configs/config_rfmotion.yaml
 
-Importantly, the task and checkpoint of demo are assigned by:
+Importantly, the checkpoint and tasks of demo are assigned by:
 
       DEMO:
         TYPE: "text" # for text-based motion generation; sourcetext, sourcehint, hint, inbetween, style
@@ -84,7 +84,6 @@ Importantly, the task and checkpoint of demo are assigned by:
 cd ./script
 bash demo.sh
 ```
-
 
 ## Train the MotionLab
 You should first check the configure in ./configs/config_rfmotion.yaml
@@ -96,7 +95,7 @@ bash train_rfmotion.sh
 ## Evaluate the MotionLab
 You should first check the configure in ./configs/config_rfmotion.yaml
 
-Importantly, the evaluate metrics are assigned by: 
+Importantly, the checkpoint and evaluate metrics are assigned by: 
 
       TEST:
             CHECKPOINTS: ""  # Pretrained model path
@@ -107,8 +106,6 @@ Importantly, the evaluate metrics are assigned by:
 cd ./script
 bash test_rfmotion.sh
 ```
-
-
 
 ## Acknowledgements
 
