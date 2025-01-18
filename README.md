@@ -77,7 +77,7 @@ You should first check the configure in ./configs/config_rfmotion.yaml
 Importantly, the task and checkpoint of demo are assigned by:
 
       DEMO:
-        TYPE: "text" # for text-based motion generation
+        TYPE: "text" # for text-based motion generation; sourcetext, sourcehint, hint, inbetween, style
         CHECKPOINTS: "./experiments/rfmotion/baseline/checkpoints/epoch=2199.ckpt"  # Pretrained model path
         
 ```
@@ -97,7 +97,8 @@ bash train_rfmotion.sh
 You should first check the configure in ./configs/config_rfmotion.yaml
 
 Importantly, the evaluate metrics are assigned by: 
-
+      TEST:
+              CHECKPOINTS: ""  # Pretrained model path
       METRIC:
             TYPE: ["MaskedMetrics", "TM2TMetrics", "SourceTextMetrics", "SourceHintMetrics", "SourceTextHintMetrics", "InbetweenMetrics", "TextInbetweenMetrics","TextHintMetrics", "HintMetrics", "StyleMetrics", ]
 ```
