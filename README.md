@@ -63,7 +63,9 @@ bash prepare/download_t2m_evaluators.sh
 
 ### 3.Prepare Datasets:
 Download the [AMASS](https://amass.is.tue.mpg.de/) dataset and [MotionFix](https://github.com/atnikos/motionfix) dataset.
+
 Follow the instructions in [HumanML3D](https://github.com/EricGuo5513/HumanML3D) to process the AMASS data into HumanML3D format, then copy the results into "all" as shown in Folder Structure.
+
 Follow the instructions in [MotionFix-Retarget](https://github.com/MotionLab-Anonymous/MotionFix-Retarget) to process the MotionFix data into HumanML3D format, then copy the results into "all" as shown in Folder Structure.
 
 ### 4. Download Checkpoint for mcm-ldm:
@@ -71,10 +73,15 @@ The results should be placed as shown in Folder Structure, including [vae7.ckpt 
 
 ## Demo the MotionLab
 You should first check the configure in ./configs/config_rfmotion.yaml
+
 Importantly, the task and checkpoint of demo are assigned by:
+
       DEMO:
+      
         TYPE: "text" # for text-based motion generation
+        
         CHECKPOINTS: "./experiments/rfmotion/baseline/checkpoints/epoch=2199.ckpt"  # Pretrained model path
+        
 ```
 cd ./script
 bash demo.sh
@@ -90,8 +97,11 @@ bash train_rfmotion.sh
 
 ## Evaluate the MotionLab
 You should first check the configure in ./configs/config_rfmotion.yaml
+
 Importantly, the evaluate metrics are assigned by: 
+
       METRIC:
+      
             TYPE: ["MaskedMetrics", "TM2TMetrics", "SourceTextMetrics", "SourceHintMetrics", "SourceTextHintMetrics", "InbetweenMetrics", "TextInbetweenMetrics","TextHintMetrics", "HintMetrics", "StyleMetrics", ]
 ```
 cd ./script
