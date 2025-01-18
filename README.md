@@ -43,3 +43,12 @@
 │   │   ├── SPECIFIED NAME OF EXPERIMENTS
 │   │   │   ├── checkpoints
 ```
+
+
+### 1. Setup Conda:
+```
+conda env create -f environment.yml
+conda activate rfmotion
+python -m spacy download en_core_web_sm
+pip install git+https://github.com/openai/CLIP.git
+```
