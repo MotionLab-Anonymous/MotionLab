@@ -6,7 +6,7 @@
     </a>
       
     <a href='https://www.youtube.com/watch?v=X5yFMSJLNcE'>
-      <img src='https://img.shields.io/badge/Project-Page-blue?style=plastic&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
+      <img src='https://img.shields.io/badge/project-project-blue' alt='project page'>
     </a>
       
 </p>
