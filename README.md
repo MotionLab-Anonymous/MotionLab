@@ -39,6 +39,8 @@
 
 
 ### 1. Setup Conda:
+python: 3.9.20; torch: 2.1.1; pytorch-lightning: 1.9.4; cuda: 11.8.0;
+
 ```
 conda env create -f environment.yml
 conda activate rfmotion
