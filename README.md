@@ -10,7 +10,7 @@
 ```
 ├── checkpoints
 │   ├── motionflow
-│   │   ├── checkpoint.ckpt
+│   │   ├── motionflow.ckpt
 │   ├── clip-vit-large-patch14
 │   ├── glove
 │   ├── mdm-ldm
@@ -65,8 +65,8 @@ Follow the instructions in [HumanML3D](https://github.com/EricGuo5513/HumanML3D)
 
 Follow the instructions in [MotionFix-Retarget](https://github.com/MotionLab-Anonymous/MotionFix-Retarget) to process the MotionFix data into HumanML3D format, then copy the results into "all" as shown in Folder Structure.
 
-### 4. Download Checkpoint for mcm-ldm:
-The results should be placed as shown in Folder Structure, including [motion_encoder.ckpt and motionclip.pth.tar](https://drive.google.com/drive/folders/1r6aDXpv_72whHxkJnSfOaJixavoer0Yf).
+### 4. Download Checkpoint:
+The results should be placed as shown in Folder Structure, including [motion_encoder.ckpt, motionclip.pth.tar, motionflow.ckpt](https://drive.google.com/drive/folders/1ph3otOlYqINvwFuvrt92nvzypZDs4haj?usp=drive_link).
 
 ## Demo the MotionLab
 You should first check the configure in ./configs/config_rfmotion.yaml
