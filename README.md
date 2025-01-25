@@ -44,18 +44,20 @@
 python: 3.9.20; torch: 2.1.1; pytorch-lightning: 1.9.4; cuda: 11.8.0;
 
 ```
-conda env create -f environment.yml
+conda create python=3.9 --name rfmotion
 conda activate rfmotion
+pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 pip install git+https://github.com/openai/CLIP.git
 ```
 
 ### 2. Download Dependencies:
-The results should be placed as shown in Folder Structure, including glove,t2m and smplx.
+The results should be placed as shown in Folder Structure, including glove,t2m and smpl.
 ```
-bash prepare/download_smpl_files.sh
+bash prepare/download_smpl_model.sh
 bash prepare/download_glove.sh
 bash prepare/download_t2m_evaluators.sh
+bash prepare/download_clip.sh
 ```
 
 ### 3.Prepare Datasets:
