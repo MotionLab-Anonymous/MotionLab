@@ -25,8 +25,14 @@
 ├── datasets
 │   ├── all
 │   │   ├── new_joint_vecs
+│   │   │   ├── 000000.npy
+│   │   │   ├── 040000.npy
 │   │   ├── new_joints
+│   │   │   ├── 000000.npy
+│   │   │   ├── 040000.npy
 │   │   ├── texts
+│   │   │   ├── 000000.txt
+│   │   │   ├── 040000.txt
 │   │   ├── train_humanml.txt
 │   │   ├── train_motionfix.txt
 │   │   ├── val_humanml.txt
