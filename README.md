@@ -85,9 +85,9 @@ Follow the instructions in [MotionFix-Retarget](https://github.com/MotionLab-Ano
 The results should be placed as shown in Folder Structure, including [motion_encoder.ckpt, motionclip.pth.tar, motionflow.ckpt](https://drive.google.com/drive/folders/1ph3otOlYqINvwFuvrt92nvzypZDs4haj?usp=drive_link).
 
 ## Demo the MotionLab
-You should first check the configure in ./configs/config_rfmotion.yaml
+FFMPEG is necessary for exporting videos, otherwise only SMPL mesh can be exported.
 
-Importantly, the checkpoint and tasks of demo are assigned by:
+You should first check the configure in ./configs/config_rfmotion.yam, to assign the checkpoint and task:
 
       DEMO:
         TYPE: "text" # for text-based motion generation; alongside "sourcetext", "sourcehint", "hint", "inbetween", "style"
@@ -108,9 +108,7 @@ bash train_rfmotion.sh
 ```
 
 ## Evaluate the MotionLab
-You should first check the configure in ./configs/config_rfmotion.yaml
-
-Importantly, the checkpoint and evaluate metrics are assigned by: 
+You should first check the configure in ./configs/config_rfmotion.yam, to assign the checkpoint and task:
 
       TEST:
             CHECKPOINTS: "./checkpoints/motionflow/motionflow.ckpt"  # Pretrained model path
