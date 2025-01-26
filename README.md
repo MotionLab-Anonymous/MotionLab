@@ -9,7 +9,6 @@
 - [2025/01/23] release demo code
 - [2025/01/23] release training code
 - [2025/01/23] release evaluating code
-- [2025/01/23] release checkpoints motionflow.ckpt
 
 ## Folder Structure
 ```
