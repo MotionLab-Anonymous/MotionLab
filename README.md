@@ -3,17 +3,16 @@
 <p align="left">
     <a href='https://www.youtube.com/watch?v=X5yFMSJLNcE'><img src='https://img.shields.io/badge/video-video-purple' alt='youtube video'></a>
     <a href='https://motionlab-anonymous.github.io/motionlab.github.io/'><img src='https://img.shields.io/badge/project-project-blue' alt='project page'></a>
-    <a href="" target='_blank'><img src="https://visitor-badge.laobi.icu/badge?page_id=MotionLab-Anonymous.MotionLab&left_color=gray&right_color=%2342b983"></a> 
+    ![visitor badge](https://visitor-badge.laobi.icu/badge?page_id=keyword)
+
+
 </p>
 
-## Plan
-release demo code- [ ] 
-
-release training code- [ ] 
-
-release evaluating code- [ ] 
-
-release checkpoints motionflow.ckpt- [ ] 
+## News
+- [2025/01/23] release demo code
+- [2025/01/23] release training code
+- [2025/01/23] release evaluating code
+- [2025/01/23] release checkpoints motionflow.ckpt
 
 ## Folder Structure
 ```
