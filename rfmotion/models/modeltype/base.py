@@ -26,7 +26,7 @@ class BaseModel(LightningModule):
         # task_epoch = [0, 100, 200, 300, 500, 600, 700, 800]
 
         self.task_order = ["masked&hint&inbetween", "text", "style", "source_hint", "source_text", "text_inbetween&hint", "source_text_hint"]
-        task_epoch = [800, 300, 300, 200, 200, 200, 200]
+        task_epoch = [1000, 300, 300, 200, 200, 200, 200]
 
         self.task_epoch = np.cumsum(task_epoch).tolist()
         self.task_FID = {
@@ -498,20 +498,20 @@ class BaseModel(LightningModule):
             self.instructions["masked"] = self.text_encoder("reconstruct given masked source motion.")[0][0]
             self.instructions["hint"] = self.text_encoder("generate motion by given trajectory.")[0][0]
 
-            # self.instructions["inbetween"] = self.text_encoder("generate motion by given key frames.")[0][0]
-            self.instructions["inbetween"] = self.text_encoder("generate motion by given trajectory.")[0][0]
+            self.instructions["inbetween"] = self.text_encoder("generate motion by given key frames.")[0][0]
+            # self.instructions["inbetween"] = self.text_encoder("generate motion by given trajectory.")[0][0]
 
             self.instructions["source_hint"] = self.text_encoder("edit source motion by given trajectory.")[0][0]
             self.instructions["source_text_hint"] = self.text_encoder("edit source motion by given text and trajectory.")[0][0]
             self.instructions["source_text"] = self.text_encoder("edit source motion by given text.")[0][0]
 
-            self.instructions["style"] = self.text_encoder("generate motion by the given style.")[0][0]
-            self.instructions["content"] = self.text_encoder("generate motion by the given content.")[0][0]
+            self.instructions["style"] = self.text_encoder("generate motion by the given style and content.")[0][0]
+            self.instructions["content"] = self.text_encoder("generate motion by the given style and content.")[0][0]
             self.instructions["style_content"] = self.text_encoder("generate motion by the given style and content.")[0][0]
 
             self.instructions["text_hint"] = self.text_encoder("generate motion by given text and trajectory.")[0][0]
-            # self.instructions["text_inbetween"] = self.text_encoder("generate motion by given text and key frames.")[0][0]
-            self.instructions["text_inbetween"] = self.text_encoder("generate motion by given text and trajectory.")[0][0]
+            self.instructions["text_inbetween"] = self.text_encoder("generate motion by given text and key frames.")[0][0]
+            # self.instructions["text_inbetween"] = self.text_encoder("generate motion by given text and trajectory.")[0][0]
 
             self.instructions["text"] = self.text_encoder("generate motion by given text.")[0][0]
 
