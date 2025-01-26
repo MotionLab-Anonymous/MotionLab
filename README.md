@@ -3,7 +3,6 @@
 <p align="left">
     <a href='https://www.youtube.com/watch?v=X5yFMSJLNcE'><img src='https://img.shields.io/badge/video-video-purple' alt='youtube video'></a>
     <a href='https://motionlab-anonymous.github.io/motionlab.github.io/'><img src='https://img.shields.io/badge/project-project-blue' alt='project page'></a>
-    % ![visitors](https://visitor-badge.glitch.me/badge?page_id=MotionLab-Anonymous.MotionLab&left_color=green&right_color=red)
 </p>
 
 ## News
