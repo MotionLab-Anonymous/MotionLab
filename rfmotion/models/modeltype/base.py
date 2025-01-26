@@ -381,9 +381,13 @@ class BaseModel(LightningModule):
 
     def get_content_encoder(self, cfg):
         self.content_encoder = instantiate_from_config(cfg.model.content_encoder)
+        checkpointpath = "./checkpoints/mcm-ldm/motion_encoder.ckpt"
+        self.content_encoder.load_state_dict(torch.load(checkpointpath))
+
         self.content_encoder.eval()
         for p in self.content_encoder.parameters():
                 p.requires_grad = False
+        self.content_encoder.to(self.device)
 
     def get_style_test_dataset(self, cfg):
         content_path = "./datasets/mcm-ldm/content_test_feats/"
