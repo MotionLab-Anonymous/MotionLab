@@ -3,9 +3,7 @@
 <p align="left">
     <a href='https://www.youtube.com/watch?v=X5yFMSJLNcE'><img src='https://img.shields.io/badge/video-video-purple' alt='youtube video'></a>
     <a href='https://motionlab-anonymous.github.io/motionlab.github.io/'><img src='https://img.shields.io/badge/project-project-blue' alt='project page'></a>
-    ![visitor badge](https://visitor-badge.laobi.icu/badge?page_id=keyword)
-
-
+    [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=MotionLab-Anonymous)](https://github.com/anuraghazra/github-readme-stats)
 </p>
 
 ## News
