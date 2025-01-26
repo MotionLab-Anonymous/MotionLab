@@ -6,13 +6,13 @@
 </p>
 
 ## Plan
-release demo code - [x]
+release demo code- [x]
 
-release training code - [x]
+release training code- [x]
 
-release evaluating code - [x]
+release evaluating code- [x]
 
-release checkpoints motionflow.ckpt - []
+release checkpoints motionflow.ckpt- []
 
 ## Folder Structure
 ```
