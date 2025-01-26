@@ -5,6 +5,14 @@
     <a href='https://motionlab-anonymous.github.io/motionlab.github.io/'><img src='https://img.shields.io/badge/project-project-blue' alt='project page'></a>
 </p>
 
+## Plan
+release demo code - [x]
+
+release training code - [x]
+
+release evaluating code - [x]
+
+release checkpoints motionflow.ckpt - []
 
 ## Folder Structure
 ```
