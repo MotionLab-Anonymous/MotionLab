@@ -98,7 +98,7 @@ cd ./script
 bash demo.sh
 ```
 
-Notably, rendering the video directly here may result in poor export results, which may cause the video clarity to decrease and the lighting to be unclear. It is recommended to export the mesh and then render the video in professional 3D software.
+Notably, rendering the video directly here may result in poor export results, which may cause the video clarity to decrease and the lighting to be unclear. It is recommended to export the mesh and then render the video in professional 3D software like Blender.
 
 ## Train the MotionLab
 You should first check the configure in ./configs/config_rfmotion.yaml
