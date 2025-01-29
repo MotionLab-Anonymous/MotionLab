@@ -5,6 +5,8 @@
     <a href='https://motionlab-anonymous.github.io/motionlab.github.io/'><img src='https://img.shields.io/badge/project-project-blue' alt='project page'></a>
 </p>
 
+An anonymous preliminary code of MotionLab.
+
 ## News
 - [2025/01/23] release demo code
 - [2025/01/23] release training code
