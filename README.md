@@ -5,12 +5,13 @@
     <a href='https://motionlab-anonymous.github.io/motionlab.github.io/'><img src='https://img.shields.io/badge/project-project-blue' alt='project page'></a>
 </p>
 
-An anonymous preliminary code of MotionLab.
+An anonymous preliminary code of MotionLab, whose core is in ./rfmotion/models/modeltype/rfmotion.py.
 
 ## News
 - [2025/01/23] release demo code
 - [2025/01/23] release training code
 - [2025/01/23] release evaluating code
+- [2025/02/01] release codes of specialist models
 
 ## Folder Structure
 ```
@@ -117,6 +118,9 @@ You should first check the configure in ./configs/config_rfmotion.yam, to assign
 cd ./script
 bash test_rfmotion.sh
 ```
+
+## Specialist Models
+If you are intrested in the specialist models focousing on specific task, you can replace ./config/config_rfmotion.yaml with ./config/config_rfmotion_TASK.yaml. And the corresponding core code is the ./rfmotion/models/modeltype/rfmotion_seperate.py.
 
 ## Acknowledgements
 
