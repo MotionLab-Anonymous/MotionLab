@@ -1,6 +1,7 @@
 import codecs as cs
 import os
 import random
+import math
 from os.path import join as pjoin
 
 import numpy as np
@@ -1756,7 +1757,19 @@ class AllDataset(data.Dataset):
         idx_3 = (self.pointer_1 + item + random.randint(0,len(self.name_list_3)-1)) % len(self.name_list_3)
         data_3 = self.data_dict_3[self.name_list_3[idx_3]]
         source, target, length_source, length_target, caption_3 = data_3["source"], data_3["target"], data_3["length_source"], data_3["length_target"], data_3["text"][0]
-        # Randomly select a caption
+
+        crop_proportion = random.uniform(0.5, 1)
+        crop_start = random.uniform(0, 1 - crop_proportion)
+
+        length = math.ceil(source.shape[0] * crop_proportion)
+        start_index = math.floor(source.shape[0] * crop_start)
+        source = source[start_index:start_index + length]  
+        length_source = length
+
+        length = math.ceil(target.shape[0] * crop_proportion)
+        start_index = math.floor(target.shape[0] * crop_start)
+        target = target[start_index:start_index + length]
+        length_target = length
 
         "Z Normalization"
         source = (source - self.mean) / self.std
