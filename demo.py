@@ -739,7 +739,7 @@ def main(cfg, output_dir):
         demo_inbetween_based_gen(cfg, output_dir, r, model, dataset)
 
     elif cfg.model.condition_type  == "text_inbetween" or cfg.DEMO.TYPE == "text_inbetween":
-        demo_inbetween_based_gen(cfg, output_dir, r, model, dataset)
+        demo_text_inbetween_based_gen(cfg, output_dir, r, model, dataset)
 
     elif cfg.model.condition_type == "style" or cfg.DEMO.TYPE == "style":
         demo_style_transfer(cfg, output_dir, r, model, dataset)
