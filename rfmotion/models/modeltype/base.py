@@ -378,6 +378,7 @@ class BaseModel(LightningModule):
         self.style_encoder.training = False
         for p in self.style_encoder.parameters():
             p.requires_grad = False
+        self.style_encoder.to(self.device)
 
     def get_content_encoder(self, cfg):
         self.content_encoder = instantiate_from_config(cfg.model.content_encoder)
