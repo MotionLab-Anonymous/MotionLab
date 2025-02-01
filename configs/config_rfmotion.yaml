@@ -65,10 +65,10 @@ model:
   source_hint_guidance_scale_2: 2.25
   source_text_hint_guidance_scale_1: 2
   source_text_hint_guidance_scale_2: 2
-  style_guidance_scale: 2.5
+  style_guidance_scale: 1.5
   drop_style_guidance_prob: 0.2
   drop_content_guidance_prob: 0.2
-
+  
 #####################################
 # The following are validation settings
 #####################################
