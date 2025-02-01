@@ -25,7 +25,7 @@
 
 scheduler:
   target: diffusers.FlowMatchEulerDiscreteScheduler
-  num_eval_steps: 21
+  num_eval_steps: 51
   num_demo_steps: 201
   params:
     num_train_timesteps: 1000
