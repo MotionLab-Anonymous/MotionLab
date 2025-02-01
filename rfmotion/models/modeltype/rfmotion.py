@@ -1936,7 +1936,7 @@ class RFMOTION(BaseModel):
             style = style.repeat(2,1,1)
 
             # generate motion
-            generated_motion = self.diffusion_reverse(stage="demo", instructions=instructions,
+            generated_motion = self.diffusion_reverse(stage="demo", instructions=instructions, condition_type="style",
                                                         style=style, style_lengths=[0] * len(style_lengths) + [1] * len(style_lengths),
                                                         content=content, content_lengths = [7] * len(content_lengths) * 2,
                                                         hint = hint, hint_lengths = hint_lengths,
