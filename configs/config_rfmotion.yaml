@@ -3,7 +3,7 @@
 ####################################
 
 # Experiment name, more details in Section 'Experiment Name Explanation'
-NAME: baseline_ModalOrderStyleLast_QKNorm_9Layer
+NAME: baseline
 # 1. use a tiny dataset for trianing and evaluation
 # 2. validate more intensively
 # 3. will not use `wandb logger`
@@ -54,15 +54,15 @@ model:
   token_dim: 512
 
   # ## For All
-  text_guidance_scale: 2.5
+  text_guidance_scale: 5.75
   hint_guidance_scale: 1.5
-  text_hint_guidance_scale: 2
+  text_hint_guidance_scale: 1.75
   inbetween_guidance_scale: 1.5
-  text_inbetween_guidance_scale: 2
-  source_text_guidance_scale_1: 2
-  source_text_guidance_scale_2: 2
-  source_hint_guidance_scale_1: 2  
-  source_hint_guidance_scale_2: 2
+  text_inbetween_guidance_scale: 1.75
+  source_text_guidance_scale_1: 2.25
+  source_text_guidance_scale_2: 2.25
+  source_hint_guidance_scale_1: 2.25  
+  source_hint_guidance_scale_2: 2.25
   source_text_hint_guidance_scale_1: 2
   source_text_hint_guidance_scale_2: 2
   style_guidance_scale: 2.5
@@ -93,7 +93,7 @@ TEST:
 # The following are demo settings
 #####################################
 DEMO:
-  TYPE: "text"
+  TYPE: ""
   CHECKPOINTS: ""  # Pretrained model path
   DATASETS: ['all']
   SPLIT: test
