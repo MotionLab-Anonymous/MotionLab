@@ -1555,6 +1555,53 @@ class RFMOTION(BaseModel):
             text = batch["text"]
 
             instruction1 = self.instructions["uncond"].repeat(len(text), 1)
+            instruction2 = self.instructions["hint"].repeat(len(text), 1)
+            instructions = torch.cat([instruction1, instruction2], dim=0)
+
+            target_motion, target_lengths = self.get_motion_batch(batch)
+            target_motion_z, target_lengths_z, target_dist_m, = self.encode_motion_into_latent(target_motion, target_lengths,)
+
+        # hint encode
+        hint=[torch.zeros((len(text), target_motion.shape[1], 66), device=target_motion.device)]
+        hint_lengths=[torch.zeros((len(text), target_motion.shape[1]), device=target_motion.device)]
+        hint_masks = []
+
+        for i in range(len(text)):
+            encoder_hidden_state, encoder_hidden_states_length, hint_mask = self.hint_mask(self.datamodule.feats2joints(target_motion[i].unsqueeze(0)).detach().to(target_motion.device), target_lengths[i], prompt=text[i], hint_type='trajectory')
+            hint.append(encoder_hidden_state)
+            hint_lengths.append(encoder_hidden_states_length)
+            hint_masks.append(hint_mask)
+        hint = torch.cat(hint, dim=0)
+        hint_lengths = torch.cat(hint_lengths, dim=0)
+        hint_masks = torch.cat(hint_masks, dim=0)
+        input_text = self.text_encoder(input_text)
+
+        with torch.no_grad():
+            # edit motion
+            generated_motion_z = self.diffusion_reverse(stage="demo", condition_type="hint", instructions=instructions, 
+                                                        hint=hint, hint_lengths=hint_lengths, hint_masks=hint_masks,
+                                                        target_motion=target_motion_z, target_lengths=target_lengths, target_lengths_z=target_lengths_z,)
+
+            # decode motion
+            generated_motion = self.decode_latent_into_motion(generated_motion_z, target_lengths, target_lengths_z,)
+
+        rs_set = { 
+                   "length_target":target_lengths, "hint_masks": hint_masks[0].detach().cpu(),
+                   "target_motion": self.datamodule.feats2joints(target_motion)[0].detach().cpu(),
+                   "generated_motion":self.datamodule.feats2joints(generated_motion)[0].detach().cpu(),
+                   }
+        return rs_set
+
+    def demo_text_hint(self,batch):
+        self.random_joints = self.random_joints.to(self.device)
+        self.datamodule.mean_motion = self.datamodule.mean_motion.to(self.device)
+        self.datamodule.std_motion = self.datamodule.std_motion.to(self.device)
+        
+        # motion encode
+        with torch.no_grad():
+            text = batch["text"]
+
+            instruction1 = self.instructions["uncond"].repeat(len(text), 1)
             instruction2 = self.instructions["text_hint"].repeat(len(text), 1)
             instructions = torch.cat([instruction1, instruction2], dim=0)
 
@@ -1648,6 +1695,57 @@ class RFMOTION(BaseModel):
 
             instruction1 = self.instructions["uncond"].repeat(len(text), 1)
             instruction2 = self.instructions["recon"].repeat(len(text), 1)
+            instruction3 = self.instructions["source_hint"].repeat(len(text), 1)
+            instructions = torch.cat([instruction1, instruction2, instruction3], dim=0)
+
+            source_motion, source_lengths, target_motion, target_lengths = self.get_paired_motion_batch(batch)
+            source_motion_z, source_lengths_z, source_dist_m, = self.encode_motion_into_latent(source_motion, source_lengths,)
+            target_motion_z, target_lengths_z, target_dist_m, = self.encode_motion_into_latent(target_motion, target_lengths,)
+
+        # hint encode
+        encoder_hidden_states=[torch.zeros((len(text)*2, target_motion.shape[1], 66), device=target_motion.device)]
+        encoder_hidden_states_lengths=[torch.zeros((len(text)*2, target_motion.shape[1]), device=target_motion.device)]
+        hint_masks = []
+
+        prompt = text[0]
+        encoder_hidden_state, encoder_hidden_states_length, hint_mask = self.hint_mask(self.datamodule.feat2motion(target_motion[0].unsqueeze(0)).to(target_motion.device).detach(), target_lengths[0], prompt, hint_type='trajectory')
+        
+        encoder_hidden_states.append(encoder_hidden_state)
+        encoder_hidden_states_lengths.append(encoder_hidden_states_length)
+        hint_masks.append(hint_mask)
+        encoder_hidden_states = torch.cat(encoder_hidden_states, dim=0).to(target_motion.device)
+        encoder_hidden_states_lengths = torch.cat(encoder_hidden_states_lengths, dim=0).to(target_motion.device)
+        hint_masks = torch.cat(hint_masks, dim=0).to(target_motion.device)
+
+        with torch.no_grad():
+            # edit motion
+            edited_motion_z = self.diffusion_reverse(stage="demo", condition_type="source_hint", instructions=instructions, 
+                                                     hint=encoder_hidden_states, hint_lengths=encoder_hidden_states_lengths, hint_masks=hint_masks,
+                                                     source_motion=source_motion_z, source_lengths=source_lengths, source_lengths_z=source_lengths_z,
+                                                     target_motion=target_motion_z, target_lengths=target_lengths, target_lengths_z=target_lengths_z,)
+            # decode motion
+            edited_motion = self.decode_latent_into_motion(edited_motion_z, target_lengths, target_lengths_z,)
+
+        rs_set = {"hint": self.datamodule.feats2joints(target_motion)[0].detach().cpu(), 
+                  "hint_masks":hint_masks[0].detach().cpu(),
+                  "source_motion":self.datamodule.feats2joints(source_motion)[0].detach().cpu(), 
+                  "target_motion":self.datamodule.feats2joints(target_motion)[0].detach().cpu(), 
+                  "edited_motion":self.datamodule.feats2joints(edited_motion)[0].detach().cpu(),
+                }
+        return rs_set
+
+    def demo_source_text_hint(self, batch):
+        # the batch is 1
+        self.random_joints = self.random_joints.to(self.device)
+        self.datamodule.mean_motion = self.datamodule.mean_motion.to(self.device)
+        self.datamodule.std_motion = self.datamodule.std_motion.to(self.device)
+
+        # motion encode
+        with torch.no_grad():
+            text = batch["edit_text"] if type(batch["edit_text"]) == list else [batch["edit_text"]]
+
+            instruction1 = self.instructions["uncond"].repeat(len(text), 1)
+            instruction2 = self.instructions["recon"].repeat(len(text), 1)
             instruction3 = self.instructions["source_text_hint"].repeat(len(text), 1)
             instructions = torch.cat([instruction1, instruction2, instruction3], dim=0)
 
@@ -1676,7 +1774,7 @@ class RFMOTION(BaseModel):
 
         with torch.no_grad():
             # edit motion
-            edited_motion_z = self.diffusion_reverse(stage="demo", condition_type="source_hint", instructions=instructions, 
+            edited_motion_z = self.diffusion_reverse(stage="demo", condition_type="source_text_hint", instructions=instructions, 
                                                      text=input_text, text_lengths=text_lengths,
                                                      hint=encoder_hidden_states, hint_lengths=encoder_hidden_states_lengths, hint_masks=hint_masks,
                                                      source_motion=source_motion_z, source_lengths=source_lengths, source_lengths_z=source_lengths_z,
@@ -1700,6 +1798,52 @@ class RFMOTION(BaseModel):
         return rs_set
 
     def demo_inbetween(self,batch):
+        self.random_joints = self.random_joints.to(self.device)
+        self.datamodule.mean_motion = self.datamodule.mean_motion.to(self.device)
+        self.datamodule.std_motion = self.datamodule.std_motion.to(self.device)
+        
+        # motion encode
+        with torch.no_grad():
+            text = batch["text"] if type(batch["text"]) == list else [batch["text"]]
+
+            instruction1 = self.instructions["uncond"].repeat(len(text), 1)
+            instruction2 = self.instructions["inbetween"].repeat(len(text), 1)
+            instructions = torch.cat([instruction1, instruction2], dim=0)
+
+            target_motion, target_lengths = self.get_motion_batch(batch)
+            target_motion_z, target_lengths_z, target_dist_m, = self.encode_motion_into_latent(target_motion, target_lengths,)
+
+        # hint encode
+        encoder_hidden_states=[torch.zeros((len(text), target_motion.shape[1], 66), device=target_motion.device)]
+        encoder_hidden_states_lengths=[torch.zeros((len(text), target_motion.shape[1]), device=target_motion.device)]
+        hint_masks = []
+
+        for i in range(len(text)):
+            encoder_hidden_state, encoder_hidden_states_length, hint_mask = self.hint_mask(self.datamodule.feats2joints(target_motion[i].unsqueeze(0)).detach().to(target_motion.device), target_lengths[i], hint_type='inbetween')
+            encoder_hidden_states.append(encoder_hidden_state)
+            encoder_hidden_states_lengths.append(encoder_hidden_states_length)
+            hint_masks.append(hint_mask)
+        encoder_hidden_states = torch.cat(encoder_hidden_states, dim=0)
+        encoder_hidden_states_lengths = torch.cat(encoder_hidden_states_lengths, dim=0)
+        hint_masks = torch.cat(hint_masks, dim=0)
+
+        with torch.no_grad():
+            # edit motion
+            inbetween_motion_z = self.diffusion_reverse(stage="demo",  condition_type="inbetween", instructions=instructions,
+                                                        hint=encoder_hidden_states, hint_lengths=encoder_hidden_states_lengths, hint_masks=hint_masks,
+                                                        target_motion=target_motion_z, target_lengths=target_lengths, target_lengths_z=target_lengths_z,)
+
+            # decode motion
+            inbetween_motion = self.decode_latent_into_motion(inbetween_motion_z, target_lengths, target_lengths_z,)
+
+        rs_set = { 
+                   "length_target":target_lengths, "hint_masks": hint_masks[0].detach().cpu(),
+                   "target_motion": self.datamodule.feats2joints(target_motion)[0].detach().cpu(),
+                   "inbetween_motion":self.datamodule.feats2joints(inbetween_motion)[0],
+                   }
+        return rs_set
+
+    def demo_text_inbetween(self,batch):
         self.random_joints = self.random_joints.to(self.device)
         self.datamodule.mean_motion = self.datamodule.mean_motion.to(self.device)
         self.datamodule.std_motion = self.datamodule.std_motion.to(self.device)
