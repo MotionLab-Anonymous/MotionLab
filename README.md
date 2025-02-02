@@ -89,7 +89,7 @@ FFMPEG is necessary for exporting videos, otherwise only SMPL mesh can be export
 You should first check the configure in ./configs/config_rfmotion.yam, to assign the checkpoint and task:
 
       DEMO:
-        TYPE: "text" # for text-based motion generation; alongside "sourcetext", "sourcehint", "hint", "inbetween", "style"
+        TYPE: "text" # for text-based motion generation; alongside "hint", "text_hint", "inbetween", "text_inbetween", "style", "source_text", "source_hint", "source_text_hint"
         CHECKPOINTS: "./checkpoints/motionflow/motionflow.ckpt"  # Pretrained model path
         
 ```
