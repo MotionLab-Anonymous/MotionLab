@@ -448,7 +448,7 @@ class RFMOTION(BaseModel):
         with torch.enable_grad():
             x = noisy_latents_ - v_pred.clone() * scale
             x.requires_grad_(True)
-            x_ = self.datamodule.feat2motion(x)
+            x_ = self.datamodule.feats2joints(x)
             loss = torch.norm((x_ - encoder_hidden_state) * hint_masks, dim=-1)
             grad = torch.autograd.grad([loss.sum()], [x])[0]
             x.detach()
@@ -1574,7 +1574,6 @@ class RFMOTION(BaseModel):
         hint = torch.cat(hint, dim=0)
         hint_lengths = torch.cat(hint_lengths, dim=0)
         hint_masks = torch.cat(hint_masks, dim=0)
-        input_text = self.text_encoder(input_text)
 
         with torch.no_grad():
             # edit motion
@@ -1680,7 +1679,7 @@ class RFMOTION(BaseModel):
         rs_set = { 
                   "source_motion":self.datamodule.feats2joints(source_motion)[0].detach().cpu(), 
                   "target_motion":self.datamodule.feats2joints(target_motion)[0].detach().cpu(), 
-                  "edited_motion":self.datamodule.feats2joinst(edited_motion)[0].detach().cpu(),}
+                  "edited_motion":self.datamodule.feats2joints(edited_motion)[0].detach().cpu(),}
         return rs_set
 
     def demo_source_hint(self, batch):
@@ -1708,7 +1707,7 @@ class RFMOTION(BaseModel):
         hint_masks = []
 
         prompt = text[0]
-        encoder_hidden_state, encoder_hidden_states_length, hint_mask = self.hint_mask(self.datamodule.feat2motion(target_motion[0].unsqueeze(0)).to(target_motion.device).detach(), target_lengths[0], prompt, hint_type='trajectory')
+        encoder_hidden_state, encoder_hidden_states_length, hint_mask = self.hint_mask(self.datamodule.feats2joints(target_motion[0].unsqueeze(0)).to(target_motion.device).detach(), target_lengths[0], prompt, hint_type='trajectory')
         
         encoder_hidden_states.append(encoder_hidden_state)
         encoder_hidden_states_lengths.append(encoder_hidden_states_length)
@@ -1759,7 +1758,7 @@ class RFMOTION(BaseModel):
         hint_masks = []
 
         prompt = text[0]
-        encoder_hidden_state, encoder_hidden_states_length, hint_mask = self.hint_mask(self.datamodule.feat2motion(target_motion[0].unsqueeze(0)).to(target_motion.device).detach(), target_lengths[0], prompt, hint_type='trajectory')
+        encoder_hidden_state, encoder_hidden_states_length, hint_mask = self.hint_mask(self.datamodule.feats2joints(target_motion[0].unsqueeze(0)).to(target_motion.device).detach(), target_lengths[0], prompt, hint_type='trajectory')
         
         encoder_hidden_states.append(encoder_hidden_state)
         encoder_hidden_states_lengths.append(encoder_hidden_states_length)
@@ -1839,7 +1838,7 @@ class RFMOTION(BaseModel):
         rs_set = { 
                    "length_target":target_lengths, "hint_masks": hint_masks[0].detach().cpu(),
                    "target_motion": self.datamodule.feats2joints(target_motion)[0].detach().cpu(),
-                   "inbetween_motion":self.datamodule.feats2joints(inbetween_motion)[0],
+                   "inbetween_motion":self.datamodule.feats2joints(inbetween_motion)[0].detach().cpu(),
                    }
         return rs_set
 
@@ -1891,7 +1890,7 @@ class RFMOTION(BaseModel):
         rs_set = { 
                    "length_target":target_lengths, "hint_masks": hint_masks[0].detach().cpu(),
                    "target_motion": self.datamodule.feats2joints(target_motion)[0].detach().cpu(),
-                   "inbetween_motion":self.datamodule.feats2joints(inbetween_motion)[0],
+                   "inbetween_motion":self.datamodule.feats2joints(inbetween_motion)[0].detach().cpu(),
                    }
         return rs_set
 
@@ -1930,7 +1929,7 @@ class RFMOTION(BaseModel):
             motion_seq = style_motion * self.datamodule.std + self.datamodule.mean
             motion_seq[...,:3]= 0
             motion_seq = motion_seq.unsqueeze(-1).permute(0,2,3,1)
-            style = self.style_encoder.encoder({'x': motion_seq,
+            style = self.style_encoder.encoder({'x': motion_seq, 
                                                 'y': torch.zeros(motion_seq.shape[0], dtype=int, device=motion_seq.device),
                                                 'mask': lengths_to_mask(style_lengths, device=motion_seq.device)})["mu"].unsqueeze(1)
             style = style.repeat(2,1,1)
