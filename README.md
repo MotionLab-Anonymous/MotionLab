@@ -1,7 +1,6 @@
 # MotionLab: Unified Human Motion Generation and Editing via the Motion-Condition-Motion Paradigm
 
 <p align="left">
-    <a href='https://www.youtube.com/watch?v=X5yFMSJLNcE'><img src='https://img.shields.io/badge/video-video-purple' alt='youtube video'></a>
     <a href='https://motionlab-anonymous.github.io/motionlab.github.io/'><img src='https://img.shields.io/badge/project-project-blue' alt='project page'></a>
 </p>
 
@@ -13,13 +12,9 @@ An anonymous preliminary code of MotionLab, whose core is in ./rfmotion/models/m
 - [2025/01/23] release evaluating code
 - [2025/02/01] release codes of specialist models
 - [2025/02/03] release checkpoints
-- [2025/02/04] 🔥🔥 Our unified model outperforms the specialist models in all metrics by modifying the CFG parameters
+- [2025/02/04] 🔥🔥 our unified model outperforms the ours specialist models on all task metrics by modifying the CFG parameters
+- [2025/03/11] 🔥🔥 update the demo video to be more concise
 
-Method | text gen. (FID) | traj. gen. (avg. err.) | text edit (R@1) | traj. edit (R@1) | in-between (avg. err.) | style transfer (SRA) | style transfer (CRA)
--------- | ----- | -----| -----| -----| -----| -----| -----
-Ours-specialist models | 0.209 | 0.0398 | 41.44 | 59.86 | 0.0371 | 67.55 | 43.53
-Ours-in paper | 0.223 | 0.0334 | 56.34 | 72.65 | 0.0273 | 64.97 | 47.86
-🔥🔥 Ours-new | 0.167 | 0.0334 | 56.34 | 72.65 | 0.0273 | 69.21 | 44.62
 
 ## Folder Structure
 ```
